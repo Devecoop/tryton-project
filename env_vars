@@ -1,0 +1,9 @@
+TRYTON_VERSION=3.2
+TRYTON_IMAGE="devecoop/tryton-argentina:$TRYTON_VERSION"
+TRYTON_CONTAINER="tryton-argentina"
+
+POSTGRES_SERVER_URL=postgres_server
+POSTGRES_CONTAINER=postgres
+POSTGRES_IMAGE=postgres
+POSTGRES_USER=tryton
+POSTGRES_PASSWORD=tryton

@@ -1,0 +1,41 @@
+{
+    "account_ar": {
+        "url": "https://bitbucket.org/thymbra/account_ar",
+        "vcs": "hg",
+        "version": "e03111f"
+    },
+    "account_bank_ar": {
+        "url": "https://bitbucket.org/thymbra/account_bank_ar",
+        "vcs": "hg"
+    },
+    "account_coop_ar": {
+        "url": "https://github.com/gcoop-libre/account_coop_ar.git",
+        "vcs": "git"
+    },
+    "account_check_ar": {
+        "url": "https://bitbucket.org/thymbra/account_check_ar",
+        "vcs": "hg"
+    },
+    "account_invoice_ar": {
+        "url": "https://github.com/Devecoop/account_invoice_ar.git",
+        "vcs": "git",
+        "version": "master"
+    },
+    "account_retencion_ar": {
+        "url": "https://bitbucket.org/thymbra/account_retencion_ar",
+        "vcs": "hg"
+    },
+    "account_voucher_ar": {
+        "url": "https://bitbucket.org/thymbra/account_voucher_ar",
+        "vcs": "hg"
+    },
+    "company_logo": {
+        "url": "https://bitbucket.org/trytonspain/trytond-company_logo",
+        "vcs": "hg",
+        "version": "3.2"
+    },
+    "country_ar": {
+        "url": "https://bitbucket.org/thymbra/country_ar",
+        "vcs": "hg"
+    }
+}

@@ -1,0 +1,73 @@
+#!/bin/sh
+
+DOCKER=docker
+
+TRYTON_DOCKER_DIR=/opt/tryton
+TRYTON_PROJECT_DIR="$(pwd)"
+TRYTON_DOCKER_MODULES_DIR=$TRYTON_DOCKER_DIR/modules
+TRYTON_MODULES_DIR=$TRYTON_PROJECT_DIR/modules
+
+source env_vars
+
+drun(){
+    run(){
+	echo
+	echo ">>> $@"
+	$@
+    }
+
+    case "$1" in
+	build_image)
+	    run $DOCKER build -t $TRYTON_IMAGE $TRYTON_PROJECT_DIR
+	    ;;
+
+	create)
+	    postgres_container=$($DOCKER ps -a | tr -s ' ' | grep " $POSTGRES_CONTAINER.$")
+	    ## Create Postgresql container if not exists
+	    if [ "$postgres_container" ]; then
+		run $DOCKER start $POSTGRES_CONTAINER
+		echo "-- Started Postgres container"
+	    else
+		run $DOCKER run --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+		    -e POSTGRES_USER=$POSTGRES_USER -d $POSTGRES_IMAGE
+		echo "-- Created Postgres container"
+	    fi
+
+	    ## Create the tryton container
+	    run $DOCKER run --name $TRYTON_CONTAINER -p 8000:8000 \
+		--link $POSTGRES_CONTAINER:$POSTGRES_SERVER_URL \
+		-v $TRYTON_MODULES_DIR:$TRYTON_DOCKER_MODULES_DIR \
+		-v $TRYTON_PROJECT_DIR/trytond.conf:$TRYTON_DOCKER_DIR/trytond.conf \
+		-v $TRYTON_PROJECT_DIR/modules.json:$TRYTON_DOCKER_DIR/modules.json \
+		-d $TRYTON_IMAGE
+	    ;;
+	install_modules)
+	    $0 start
+	    run $DOCKER exec $TRYTON_CONTAINER \
+		${TRYTON_DOCKER_DIR}/get_modules.py
+	    ;;
+	install_my_modules)
+	    run $DOCKER exec $TRYTON_CONTAINER \
+		pip install --src $TRYTON_DOCKER_DIR/modules -r $TRYTON_DOCKER_DIR/my-modules.txt
+	    ;;
+	start)
+	    run $DOCKER start $POSTGRES_CONTAINER
+	    run $DOCKER start $TRYTON_CONTAINER
+	    ;;
+	stop)
+	    run $DOCKER stop $POSTGRES_CONTAINER
+	    run $DOCKER stop $TRYTON_CONTAINER
+	    ;;
+	rm)
+	    run $DOCKER rm $TRYTON_CONTAINER
+	    ;;
+	*)
+	    echo "Usage:"
+	    echo "  $0 build_image"
+	    echo "  $0 create"
+	    echo "  $0 start"
+	    echo "  $0 stop"
+	    echo "  $0 install_modules"
+	    ;;
+    esac
+}
