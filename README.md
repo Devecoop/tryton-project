@@ -15,14 +15,14 @@ Podes encontrar las diferentes formas de instalación
 
 En el caso de ubuntu sería:
 
-    ```$ wget -qO- https://get.docker.com/ | sh```
+    $ wget -qO- https://get.docker.com/ | sh
 
 # Drun
 
 Para facilitar el manejo de los container hemos creado un pequeño
 wrapper. Para activarlo use:
 
-    ```$ source drunrc```
+    $ source drunrc
 
 # Creando los containers
 
@@ -30,8 +30,8 @@ Una vez hecho el source de drunrc tenemos disponible el comando
 drun. La primera vez tendremos que ejecutar los siguientes comandos
 para construir los container y poner los módulos argentinos.
 
-    ```$ drun build_image # Build de imágenes de docker```
-    ```$ drun create # Crea los containers de docker```
-    ```$ drun install_modules # Instala los módulos definidos en modules.json```
-    ```$ drun stop # Detiene los containers```
-    ```$ drun start # Vuelve a arrancar los containers```
+    $ drun build_image # Build de imágenes de docker
+    $ drun create # Crea los containers de docker
+    $ drun install_modules # Instala los módulos definidos en modules.json
+    $ drun stop # Detiene los containers
+    $ drun start # Vuelve a arrancar los containers
