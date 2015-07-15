@@ -7,3 +7,5 @@ POSTGRES_CONTAINER=tryton-postgres
 POSTGRES_IMAGE=postgres
 POSTGRES_USER=tryton
 POSTGRES_PASSWORD=tryton
+
+BACKUP_DIR="backups"

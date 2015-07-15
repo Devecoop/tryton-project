@@ -9,14 +9,27 @@ TRYTON_MODULES_DIR=$TRYTON_PROJECT_DIR/modules
 
 source env_vars
 
+alias errcho='>&2 echo'
+
 drun(){
     run(){
-	echo
 	echo ">>> $@"
 	$@
     }
 
     case "$1" in
+        backup)
+            if [ -n "$2" ]; then
+                mkdir -p $BACKUP_DIR
+                backupfile=${BACKUP_DIR}/${2}-$(date "+%Y-%m-%d.$M%S").sql
+                $DOCKER exec $POSTGRES_CONTAINER pg_dump $2 -U postgres > $backupfile
+                if [ $? != 0 ]; then
+                    rm $backupfile
+                fi
+            else
+                errcho "Debe especificar una base de datos."
+            fi
+            ;;
 	build_image)
 	    run $DOCKER build -t $TRYTON_IMAGE $TRYTON_PROJECT_DIR
 	    ;;
@@ -61,13 +74,18 @@ drun(){
 	rm)
 	    run $DOCKER rm $TRYTON_CONTAINER
 	    ;;
+	enter)
+	    run $DOCKER exec -it $TRYTON_CONTAINER bash
+	    ;;
 	*)
-	    echo "Usage:"
-	    echo "  $0 build_image"
-	    echo "  $0 create"
-	    echo "  $0 start"
-	    echo "  $0 stop"
-	    echo "  $0 install_modules"
+	    errcho "Usage:"
+	    errcho "  $0 backup"
+	    errcho "  $0 build_image"
+	    errcho "  $0 create"
+	    errcho "  $0 enter"
+	    errcho "  $0 start"
+	    errcho "  $0 stop"
+	    errcho "  $0 install_modules"
 	    ;;
     esac
 }
