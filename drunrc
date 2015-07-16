@@ -63,6 +63,10 @@ drun(){
 	    run $DOCKER exec $TRYTON_CONTAINER \
 		pip install --src $TRYTON_DOCKER_DIR/modules -r $TRYTON_DOCKER_DIR/my-modules.txt
 	    ;;
+        restore)
+            docker exec tryton-postgres createdb -U tryton $3
+            cat $2 | docker exec -i tryton-postgres psql -q -U tryton -d $3
+            ;;
 	start)
 	    run $DOCKER start $POSTGRES_CONTAINER
 	    run $DOCKER start $TRYTON_CONTAINER
@@ -79,10 +83,11 @@ drun(){
 	    ;;
 	*)
 	    errcho "Usage:"
-	    errcho "  $0 backup"
+	    errcho "  $0 backup [database_name]"
 	    errcho "  $0 build_image"
 	    errcho "  $0 create"
 	    errcho "  $0 enter"
+            erccho "  $0 restore [sql_file] [new_database_name]"
 	    errcho "  $0 start"
 	    errcho "  $0 stop"
 	    errcho "  $0 install_modules"
