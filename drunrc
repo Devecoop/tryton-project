@@ -21,7 +21,7 @@ drun(){
         backup)
             if [ -n "$2" ]; then
                 mkdir -p $BACKUP_DIR
-                backupfile=${BACKUP_DIR}/${2}-$(date "+%Y-%m-%d.$M%S").sql
+                backupfile=${BACKUP_DIR}/${2}-$(date "+%Y-%m-%d.%M%S").sql
                 $DOCKER exec $POSTGRES_CONTAINER pg_dump $2 -U postgres > $backupfile
                 if [ $? != 0 ]; then
                     rm $backupfile
@@ -87,7 +87,7 @@ drun(){
 	    errcho "  $0 build_image"
 	    errcho "  $0 create"
 	    errcho "  $0 enter"
-            erccho "  $0 restore [sql_file] [new_database_name]"
+            errcho "  $0 restore [sql_file] [new_database_name]"
 	    errcho "  $0 start"
 	    errcho "  $0 stop"
 	    errcho "  $0 install_modules"
