@@ -9,7 +9,6 @@ Pillow>=2.0.0
 ## Other requirements
 ConfigParser
 argparse==1.2.1
-soap2py==1.16
 suds==0.4
 vatnumber==1.2
 wsgiref==0.1.2

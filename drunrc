@@ -2,6 +2,7 @@
 
 DOCKER=docker
 
+TRYTOND_FLAGS=(-v -c /etc/trytond.conf --dev)
 TRYTON_DOCKER_DIR=/opt/tryton
 TRYTON_PROJECT_DIR="$(pwd)"
 TRYTON_DOCKER_MODULES_DIR=$TRYTON_DOCKER_DIR/modules
@@ -52,7 +53,8 @@ drun(){
 		-v $TRYTON_MODULES_DIR:$TRYTON_DOCKER_MODULES_DIR \
 		-v $TRYTON_PROJECT_DIR/trytond.conf:$TRYTON_DOCKER_DIR/trytond.conf \
 		-v $TRYTON_PROJECT_DIR/modules.json:$TRYTON_DOCKER_DIR/modules.json \
-		-d $TRYTON_IMAGE
+		-d $TRYTON_IMAGE \
+                trytond $TRYTOND_FLAGS
 	    ;;
 	install_modules)
 	    $0 start
